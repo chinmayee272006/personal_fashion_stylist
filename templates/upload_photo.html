@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+{% block title %}Photo Analysis — Fashion Stylist{% endblock %}
+
+{% block content %}
+<div class="section-center">
+    <div class="card card-wide">
+        <!-- ── Step indicator ── -->
+        <div class="step-indicator">
+            <div class="step completed">
+                <span class="step-num">✓</span>
+                <span class="step-label">Profile</span>
+            </div>
+            <div class="step-line step-line-done"></div>
+            <div class="step active">
+                <span class="step-num">2</span>
+                <span class="step-label">Photo</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <span class="step-num">3</span>
+                <span class="step-label">Occasion</span>
+            </div>
+        </div>
+
+        <h2>Photo Analysis</h2>
+        <p class="subtitle">Upload a photo and our AI will detect your body type and skin tone.</p>
+
+        {% if not show_results %}
+        {# ════════════ UPLOAD FORM ════════════ #}
+        <form method="POST" enctype="multipart/form-data" id="upload-form">
+            <input type="hidden" name="step" value="upload">
+
+            <div class="dropzone" id="dropzone">
+                <span class="dropzone-icon">📸</span>
+                <h3>Drop your photo here</h3>
+                <p>or click to browse</p>
+                <p class="dropzone-hint">Full-body photos work best · JPEG, PNG, WebP · Max 16 MB</p>
+                <input type="file" name="photo" id="photo-input" accept="image/*" hidden>
+            </div>
+
+            <div class="preview-container" id="preview-container" style="display:none;">
+                <img id="preview-img" alt="Preview">
+                <div style="margin-top:0.8rem;">
+                    <button type="button" id="remove-btn" class="btn btn-outline btn-sm">✕ Remove</button>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="upload-btn" disabled
+                    style="margin-top:1.5rem;">
+                🔍 Analyse Photo
+            </button>
+        </form>
+
+        <p class="form-footer">
+            <a href="{{ url_for('occasion') }}">Skip — I'll enter details manually →</a>
+        </p>
+
+        {% else %}
+        {# ════════════ ANALYSIS RESULTS ════════════ #}
+        {% if analysis.error %}
+        <div class="analysis-warning">⚠️ {{ analysis.error }}</div>
+        {% endif %}
+
+        <div class="analysis-panel">
+            <div class="analysis-photo">
+                <img src="{{ photo_url }}" alt="Your uploaded photo">
+            </div>
+
+            <form method="POST" class="analysis-form" id="save-results-form">
+                <input type="hidden" name="step" value="save">
+
+                <!-- Body Type -->
+                <div class="result-row">
+                    <span class="result-label">Body Type</span>
+                    {% if analysis.body_type %}
+                    <span class="result-value detected">✅ {{ analysis.body_type }}</span>
+                    {% else %}
+                    <span class="result-value not-detected">⚠️ Not detected</span>
+                    {% endif %}
+                </div>
+                <div class="form-group compact">
+                    <select id="body_type" name="body_type">
+                        <option value="">— Select manually —</option>
+                        {% for bt in body_types %}
+                        <option value="{{ bt }}" {{ 'selected' if analysis.body_type == bt }}>{{ bt }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Skin Tone -->
+                <div class="result-row" style="margin-top:1rem;">
+                    <span class="result-label">Skin Tone</span>
+                    {% if analysis.skin_tone %}
+                    <span class="result-value detected">✅ {{ analysis.skin_tone }}</span>
+                    {% else %}
+                    <span class="result-value not-detected">⚠️ Not detected</span>
+                    {% endif %}
+                </div>
+                <div class="form-group compact">
+                    <select id="skin_tone" name="skin_tone">
+                        <option value="">— Select manually —</option>
+                        {% for st in skin_tones %}
+                        <option value="{{ st }}" {{ 'selected' if analysis.skin_tone == st }}>{{ st }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                {% if analysis.confidence > 0 %}
+                <p class="analysis-note">Detection confidence: {{ (analysis.confidence * 100)|int }}%</p>
+                {% endif %}
+
+                <button type="submit" class="btn btn-primary" style="margin-top:1.5rem;">
+                    Save &amp; Continue to Occasions →
+                </button>
+            </form>
+        </div>
+
+        <p class="form-footer">
+            <a href="{{ url_for('upload_photo') }}">← Upload a different photo</a>
+        </p>
+        {% endif %}
+    </div>
+</div>
+
+{% if not show_results %}
+<script>
+(function () {
+    const dropzone   = document.getElementById('dropzone');
+    const fileInput  = document.getElementById('photo-input');
+    const previewCtn = document.getElementById('preview-container');
+    const previewImg = document.getElementById('preview-img');
+    const uploadBtn  = document.getElementById('upload-btn');
+    const removeBtn  = document.getElementById('remove-btn');
+    const form       = document.getElementById('upload-form');
+
+    /* Click to browse */
+    dropzone.addEventListener('click', function () { fileInput.click(); });
+
+    /* Drag & drop */
+    ['dragenter', 'dragover'].forEach(function (evt) {
+        dropzone.addEventListener(evt, function (e) {
+            e.preventDefault();
+            dropzone.classList.add('dragover');
+        });
+    });
+    ['dragleave', 'drop'].forEach(function (evt) {
+        dropzone.addEventListener(evt, function (e) {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+        });
+    });
+    dropzone.addEventListener('drop', function (e) {
+        if (e.dataTransfer.files.length) {
+            fileInput.files = e.dataTransfer.files;
+            showPreview(e.dataTransfer.files[0]);
+        }
+    });
+
+    /* File chosen via dialog */
+    fileInput.addEventListener('change', function (e) {
+        if (e.target.files.length) showPreview(e.target.files[0]);
+    });
+
+    function showPreview(file) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            previewImg.src = e.target.result;
+            previewCtn.style.display = 'block';
+            dropzone.style.display = 'none';
+            uploadBtn.disabled = false;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    removeBtn.addEventListener('click', function () {
+        fileInput.value = '';
+        previewCtn.style.display = 'none';
+        dropzone.style.display = 'block';
+        uploadBtn.disabled = true;
+    });
+
+    /* Loading state on submit */
+    form.addEventListener('submit', function () {
+        uploadBtn.disabled = true;
+        uploadBtn.textContent = '⏳ Analysing…';
+    });
+})();
+</script>
+{% endif %}
+{% endblock %}

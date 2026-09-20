@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Occasions — Fashion Stylist{% endblock %}
+
+{% block content %}
+<div class="section-center">
+    <div class="card card-wide">
+        <!-- ── Step indicator ── -->
+        <div class="step-indicator">
+            <div class="step completed">
+                <span class="step-num">✓</span>
+                <span class="step-label">Profile</span>
+            </div>
+            <div class="step-line step-line-done"></div>
+            <div class="step completed">
+                <span class="step-num">✓</span>
+                <span class="step-label">Photo</span>
+            </div>
+            <div class="step-line step-line-done"></div>
+            <div class="step active">
+                <span class="step-num">3</span>
+                <span class="step-label">Occasion</span>
+            </div>
+        </div>
+
+        <h2>Choose Your Occasions</h2>
+        <p class="subtitle">Select the occasions you usually dress for — pick as many as you like.</p>
+
+        <form method="POST" action="{{ url_for('occasion') }}" id="occasion-form">
+            <div class="occasion-grid">
+                {% for occ in occasions %}
+                <label class="occasion-card {{ 'selected' if occ.value in saved }}"
+                       id="occ-{{ occ.value|lower|replace(' ', '-') }}">
+                    <input type="checkbox" name="occasions" value="{{ occ.value }}"
+                           {{ 'checked' if occ.value in saved }}>
+                    <span class="occ-icon">{{ occ.icon }}</span>
+                    <span class="occ-label">{{ occ.label }}</span>
+                </label>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="occasion-save-btn">
+                Complete Setup ✨
+            </button>
+        </form>
+
+        <p class="form-footer">
+            <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+        </p>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.occasion-card input[type="checkbox"]').forEach(function (cb) {
+        cb.addEventListener('change', function () {
+            this.closest('.occasion-card').classList.toggle('selected', this.checked);
+        });
+    });
+</script>
+{% endblock %}

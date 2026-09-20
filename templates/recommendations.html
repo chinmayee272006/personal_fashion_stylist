@@ -1,0 +1,291 @@
+{% extends "base.html" %}
+
+{% block title %}Recommendations — Fashion Stylist{% endblock %}
+
+{% block content %}
+
+<div class="page-wrapper">
+
+    <!-- Header -->
+    <div class="rec-header">
+
+        <h1>
+            Your <span class="gradient-text">Recommendations</span>
+        </h1>
+
+        <p>
+            Outfits scored against your profile — best matches first.
+        </p>
+
+        <!-- Profile Pills -->
+        <div class="rec-profile-pills">
+
+            {% if profile and profile.body_type %}
+            <span class="pill">
+                🧍 {{ profile.body_type }}
+            </span>
+            {% endif %}
+
+            {% if profile and profile.skin_tone %}
+            <span class="pill">
+                🎨 {{ profile.skin_tone }}
+            </span>
+            {% endif %}
+
+            {% if profile and profile.occasion %}
+            <span class="pill">
+                📅 {{ profile.occasion }}
+            </span>
+            {% endif %}
+
+            {% if profile and profile.favourite_colour %}
+            <span class="pill">
+                💎 {{ profile.favourite_colour }}
+            </span>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- No Recommendations -->
+    {% if not results %}
+
+    <div class="rec-empty card">
+
+        <div class="icon" style="font-size: 2.5rem; margin-bottom: 1rem;">
+            🔍
+        </div>
+
+        <h3>
+            No matching outfits found
+        </h3>
+
+        <p>
+            Try completing your
+            <a href="{{ url_for('profile') }}">profile</a>
+            or selecting more
+            <a href="{{ url_for('occasion') }}">occasions</a>.
+        </p>
+
+    </div>
+
+    {% else %}
+
+
+    <!-- Recommendation Grid -->
+    <div class="rec-grid">
+
+        {% for item in results %}
+
+        {% set outfit = item.outfit %}
+        {% set score = item.score %}
+
+        <div class="rec-card"
+             style="--outfit-color: {{ colour_hex_map.get(outfit.colour, '#a855f7') }}">
+
+            <!-- Favourite Button -->
+            <form method="POST"
+                  action="{{ url_for('toggle_favourite') }}"
+                  class="fav-toggle-form">
+
+                <input type="hidden"
+                       name="outfit_id"
+                       value="{{ outfit.outfit_id }}">
+
+                <input type="hidden"
+                       name="redirect_to"
+                       value="recommendations">
+
+                <button type="submit"
+                        class="fav-heart {% if outfit.outfit_id in fav_ids %}is-fav{% endif %}"
+                        title="{% if outfit.outfit_id in fav_ids %}Remove from favourites{% else %}Save to favourites{% endif %}">
+
+                    {% if outfit.outfit_id in fav_ids %}
+                        ❤️
+                    {% else %}
+                        🤍
+                    {% endif %}
+
+                </button>
+
+            </form>
+
+
+            <!-- Card Header -->
+            <div class="rec-card-header">
+
+                <div class="rec-score-badge">
+                    {{ score.total }}<small>/100</small>
+                </div>
+
+                <span class="rec-season">
+                    {{ outfit.season }}
+                </span>
+
+            </div>
+
+
+            <!-- Outfit Name -->
+            <h3 class="rec-name">
+                {{ outfit.outfit_name }}
+            </h3>
+
+
+            <!-- Tags -->
+            <div class="rec-tags">
+
+                <span class="rec-tag">
+                    {{ outfit.category }}
+                </span>
+
+                <span class="rec-tag">
+                    {{ outfit.colour }}
+                </span>
+
+                <span class="rec-tag">
+                    {{ outfit.gender_target }}
+                </span>
+
+            </div>
+
+
+            <!-- Description -->
+            <p class="rec-desc">
+                {{ outfit.description }}
+            </p>
+
+
+            <!-- Score Breakdown -->
+            <div class="rec-breakdown">
+
+
+                <!-- Body Type -->
+                <div class="rec-factor {% if score.body_type > 0 %}matched{% endif %}">
+
+                    <span class="rec-factor-icon">
+
+                        {% if score.body_type > 0 %}
+                            ✅
+                        {% else %}
+                            ⬜
+                        {% endif %}
+
+                    </span>
+
+                    <span class="rec-factor-label">
+                        Body Type
+                    </span>
+
+                    <span class="rec-factor-pts">
+                        {{ score.body_type }}/30
+                    </span>
+
+                </div>
+
+
+                <!-- Skin Tone -->
+                <div class="rec-factor {% if score.skin_tone > 0 %}matched{% endif %}">
+
+                    <span class="rec-factor-icon">
+
+                        {% if score.skin_tone > 0 %}
+                            ✅
+                        {% else %}
+                            ⬜
+                        {% endif %}
+
+                    </span>
+
+                    <span class="rec-factor-label">
+                        Skin Tone
+                    </span>
+
+                    <span class="rec-factor-pts">
+                        {{ score.skin_tone }}/25
+                    </span>
+
+                </div>
+
+
+                <!-- Occasion -->
+                <div class="rec-factor {% if score.occasion > 0 %}matched{% endif %}">
+
+                    <span class="rec-factor-icon">
+
+                        {% if score.occasion > 0 %}
+                            ✅
+                        {% else %}
+                            ⬜
+                        {% endif %}
+
+                    </span>
+
+                    <span class="rec-factor-label">
+                        Occasion
+                    </span>
+
+                    <span class="rec-factor-pts">
+                        {{ score.occasion }}/25
+                    </span>
+
+                </div>
+
+
+                <!-- Colour -->
+                <div class="rec-factor {% if score.colour > 0 %}matched{% endif %}">
+
+                    <span class="rec-factor-icon">
+
+                        {% if score.colour == 20 %}
+                            ✅
+
+                        {% elif score.colour > 0 %}
+                            🟡
+
+                        {% else %}
+                            ⬜
+
+                        {% endif %}
+
+                    </span>
+
+                    <span class="rec-factor-label">
+                        Colour
+                    </span>
+
+                    <span class="rec-factor-pts">
+                        {{ score.colour }}/20
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Recommendation Score -->
+            <div class="rec-total">
+
+                <span>
+                    Match Score
+                </span>
+
+                <strong>
+                    {{ score.total }}/100
+                </strong>
+
+            </div>
+
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

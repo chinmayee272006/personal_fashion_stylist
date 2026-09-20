@@ -1,0 +1,104 @@
+{% extends "admin_base.html" %}
+{% block title %}{{ 'Edit' if is_edit else 'Add' }} Outfit — Admin{% endblock %}
+{% block page_title %}{{ 'Edit' if is_edit else 'Add New' }} Outfit{% endblock %}
+
+{% block content %}
+<div class="admin-form-container">
+    <div class="admin-form-header">
+        <h1>{{ '✏️ Edit' if is_edit else '➕ Add New' }} Outfit</h1>
+        <a href="{{ url_for('admin_outfits') }}" class="btn btn-outline btn-admin btn-sm">← Back to list</a>
+    </div>
+
+    <form method="POST"
+          action="{{ url_for('admin_outfit_edit', outfit_id=outfit.outfit_id) if is_edit else url_for('admin_outfit_add') }}"
+          class="admin-form" id="outfit-form">
+
+        <div class="admin-form-grid">
+            <!-- Outfit Name -->
+            <div class="form-group admin-form-full">
+                <label for="outfit_name">Outfit Name *</label>
+                <input type="text" id="outfit_name" name="outfit_name"
+                       value="{{ outfit.get('outfit_name', '') }}"
+                       placeholder="e.g. Classic Black Blazer" required>
+            </div>
+
+            <!-- Category -->
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category">
+                    <option value="">Select category</option>
+                    {% for cat in ['Casual', 'Formal', 'Party', 'Ethnic', 'Streetwear', 'Sports', 'Date Night', 'Wedding', 'Travel', 'Work From Home'] %}
+                    <option value="{{ cat }}" {{ 'selected' if outfit.get('category') == cat }}>{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Season -->
+            <div class="form-group">
+                <label for="season">Season</label>
+                <select id="season" name="season">
+                    <option value="">Select season</option>
+                    {% for s in ['All-Season', 'Summer', 'Winter', 'Monsoon'] %}
+                    <option value="{{ s }}" {{ 'selected' if outfit.get('season') == s }}>{{ s }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Gender Target -->
+            <div class="form-group">
+                <label for="gender_target">Gender Target</label>
+                <select id="gender_target" name="gender_target">
+                    <option value="">Select gender</option>
+                    {% for g in ['Male', 'Female', 'Unisex'] %}
+                    <option value="{{ g }}" {{ 'selected' if outfit.get('gender_target') == g }}>{{ g }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Colour -->
+            <div class="form-group">
+                <label for="colour">Colour</label>
+                <select id="colour" name="colour">
+                    <option value="">Select colour</option>
+                    {% for c in ['Black', 'White', 'Navy', 'Red', 'Burgundy', 'Pink', 'Green', 'Olive', 'Mustard', 'Teal', 'Lavender', 'Coral', 'Beige', 'Grey', 'Brown', 'Blue'] %}
+                    <option value="{{ c }}" {{ 'selected' if outfit.get('colour') == c }}>{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Suitable Body Types -->
+            <div class="form-group admin-form-full">
+                <label for="suitable_body_types">Suitable Body Types</label>
+                <input type="text" id="suitable_body_types" name="suitable_body_types"
+                       value="{{ outfit.get('suitable_body_types', '') }}"
+                       placeholder="e.g. Hourglass, Pear, Rectangle">
+                <small>Comma-separated list: Hourglass, Pear, Apple, Rectangle, Inverted Triangle</small>
+            </div>
+
+            <!-- Suitable Skin Tones -->
+            <div class="form-group admin-form-full">
+                <label for="suitable_skin_tones">Suitable Skin Tones</label>
+                <input type="text" id="suitable_skin_tones" name="suitable_skin_tones"
+                       value="{{ outfit.get('suitable_skin_tones', '') }}"
+                       placeholder="e.g. Fair, Light, Medium">
+                <small>Comma-separated list: Fair, Light, Medium, Olive, Tan, Deep</small>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group admin-form-full">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="3"
+                          placeholder="Describe the outfit..."
+                          class="fb-comment-input">{{ outfit.get('description', '') }}</textarea>
+            </div>
+        </div>
+
+        <div class="admin-form-actions">
+            <button type="submit" class="btn btn-primary btn-admin" id="save-outfit-btn">
+                {{ '💾 Update Outfit' if is_edit else '➕ Add Outfit' }}
+            </button>
+            <a href="{{ url_for('admin_outfits') }}" class="btn btn-outline btn-admin">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

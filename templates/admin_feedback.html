@@ -1,0 +1,64 @@
+{% extends "admin_base.html" %}
+{% block title %}View Feedback — Admin{% endblock %}
+{% block page_title %}User Feedback{% endblock %}
+
+{% block content %}
+<div class="admin-section-header">
+    <h1>💬 User Feedback</h1>
+    <p class="admin-subtitle">{{ feedbacks|length }} feedback entr{{ 'ies' if feedbacks|length != 1 else 'y' }} from users.</p>
+</div>
+
+{% if not feedbacks %}
+<div class="admin-empty-state">
+    <div class="empty-icon">📭</div>
+    <h3>No feedback yet</h3>
+    <p>Feedback will appear here once users rate their favourite outfits.</p>
+</div>
+{% else %}
+<div class="admin-table-wrap">
+    <table class="admin-table" id="feedback-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Outfit</th>
+                <th>Rating</th>
+                <th>Comment</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fb in feedbacks %}
+            <tr>
+                <td class="td-id">{{ fb.feedback_id }}</td>
+                <td>
+                    <span class="user-badge">{{ fb.username }}</span>
+                    <span class="td-email-small">{{ fb.email }}</span>
+                </td>
+                <td>
+                    <strong>{{ fb.outfit_name or 'Deleted outfit' }}</strong>
+                    {% if fb.category %}
+                    <span class="admin-pill small">{{ fb.category }}</span>
+                    {% endif %}
+                </td>
+                <td class="td-rating">
+                    <div class="fb-stars">
+                        {% for i in range(1, 6) %}
+                        <span class="star {{ 'filled' if i <= fb.rating }}">★</span>
+                        {% endfor %}
+                    </div>
+                    <span class="rating-num">{{ fb.rating }}/5</span>
+                </td>
+                <td class="td-comment">
+                    {{ fb.comment if fb.comment else '—' }}
+                </td>
+                <td class="td-date">
+                    {{ fb.created_at.strftime('%d %b %Y, %H:%M') if fb.created_at else '—' }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

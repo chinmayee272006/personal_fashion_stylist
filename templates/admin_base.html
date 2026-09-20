@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Fashion Stylist — Admin Panel">
+    <title>{% block title %}Admin Panel{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="admin-body">
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar" id="admin-sidebar">
+        <div class="admin-brand">
+            <span class="admin-brand-icon">🛡️</span>
+            <span class="admin-brand-text">Admin Panel</span>
+        </div>
+
+        <nav class="admin-nav">
+            <a href="{{ url_for('admin_dashboard') }}"
+               class="admin-nav-link {{ 'active' if request.endpoint == 'admin_dashboard' }}"
+               id="nav-admin-dashboard">
+                <span class="nav-icon">📊</span> Dashboard
+            </a>
+            <a href="{{ url_for('admin_users') }}"
+               class="admin-nav-link {{ 'active' if request.endpoint == 'admin_users' }}"
+               id="nav-admin-users">
+                <span class="nav-icon">👥</span> Users
+            </a>
+            <a href="{{ url_for('admin_outfits') }}"
+               class="admin-nav-link {{ 'active' if request.endpoint in ('admin_outfits', 'admin_outfit_add', 'admin_outfit_edit') }}"
+               id="nav-admin-outfits">
+                <span class="nav-icon">👗</span> Outfits
+            </a>
+            <a href="{{ url_for('admin_feedback') }}"
+               class="admin-nav-link {{ 'active' if request.endpoint == 'admin_feedback' }}"
+               id="nav-admin-feedback">
+                <span class="nav-icon">💬</span> Feedback
+            </a>
+        </nav>
+
+        <div class="admin-sidebar-footer">
+            <div class="admin-user-badge">
+                <span class="admin-avatar">🔑</span>
+                <span>{{ session.get('admin_username', 'Admin') }}</span>
+            </div>
+            <a href="{{ url_for('admin_logout') }}" class="admin-nav-link admin-logout-link" id="admin-logout-btn">
+                <span class="nav-icon">🚪</span> Logout
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main content area -->
+    <main class="admin-main">
+        <!-- Top bar (mobile toggle + breadcrumb) -->
+        <header class="admin-topbar">
+            <button class="admin-menu-toggle" id="admin-menu-toggle" aria-label="Toggle menu">☰</button>
+            <h2 class="admin-page-title">{% block page_title %}Dashboard{% endblock %}</h2>
+        </header>
+
+        <!-- Flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="admin-flashes">
+                    {% for category, message in messages %}
+                        <div class="flash-{{ category }} admin-flash-msg">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <!-- Page content -->
+        <div class="admin-content">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <script>
+    // Mobile sidebar toggle
+    const toggle = document.getElementById('admin-menu-toggle');
+    const sidebar = document.getElementById('admin-sidebar');
+    if (toggle) {
+        toggle.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+    }
+    </script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

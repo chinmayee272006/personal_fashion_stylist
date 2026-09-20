@@ -1,0 +1,51 @@
+{% extends "admin_base.html" %}
+{% block title %}Manage Users — Admin{% endblock %}
+{% block page_title %}Manage Users{% endblock %}
+
+{% block content %}
+<div class="admin-section-header">
+    <h1>👥 Registered Users</h1>
+    <p class="admin-subtitle">{{ users|length }} user{{ 's' if users|length != 1 }} registered on the platform.</p>
+</div>
+
+{% if not users %}
+<div class="admin-empty-state">
+    <div class="empty-icon">🚫</div>
+    <h3>No users yet</h3>
+    <p>Users will appear here once they register.</p>
+</div>
+{% else %}
+<div class="admin-table-wrap">
+    <table class="admin-table" id="users-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Gender</th>
+                <th>Body Type</th>
+                <th>Skin Tone</th>
+                <th>Occasions</th>
+                <th>Joined</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td class="td-id">{{ user.user_id }}</td>
+                <td class="td-username">
+                    <span class="user-badge">{{ user.username }}</span>
+                </td>
+                <td class="td-email">{{ user.email }}</td>
+                <td>{{ user.gender or '—' }}</td>
+                <td>{{ user.body_type or '—' }}</td>
+                <td>{{ user.skin_tone or '—' }}</td>
+                <td class="td-occasion">{{ user.occasion or '—' }}</td>
+                <td class="td-date">{{ user.created_at.strftime('%d %b %Y') if user.created_at else '—' }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+{% endblock %}

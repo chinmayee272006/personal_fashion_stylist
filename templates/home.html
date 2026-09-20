@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Personal Fashion Stylist — Your AI Style Companion{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Your Personal<br><span class="gradient-text">AI Fashion Stylist</span></h1>
+        <p>Get outfit recommendations tailored to your body type, skin tone, and style preferences — powered by computer vision and smart algorithms.</p>
+        <div class="hero-actions">
+            <a href="{{ url_for('register') }}" class="btn btn-primary" style="width:auto;">Get Started Free</a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline">Log In</a>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="card feature-card">
+            <div class="icon">📸</div>
+            <h3>Body Analysis</h3>
+            <p>Upload a photo and let our AI detect your body proportions for perfect fits.</p>
+        </div>
+        <div class="card feature-card">
+            <div class="icon">🎨</div>
+            <h3>Color Matching</h3>
+            <p>Discover which colours complement your skin tone and personal palette.</p>
+        </div>
+        <div class="card feature-card">
+            <div class="icon">👔</div>
+            <h3>Smart Outfits</h3>
+            <p>Receive curated outfit suggestions for any occasion — casual to formal.</p>
+        </div>
+        <div class="card feature-card">
+            <div class="icon">❤️</div>
+            <h3>Save Favourites</h3>
+            <p>Bookmark looks you love and build your personal style library.</p>
+        </div>
+    </section>
+</div>
+{% endblock %}

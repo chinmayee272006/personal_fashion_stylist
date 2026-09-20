@@ -1,0 +1,139 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Manage Outfits — Admin{% endblock %}
+
+{% block page_title %}Manage Outfits{% endblock %}
+
+{% block content %}
+
+<div class="admin-section-header">
+    <div class="admin-section-header-row">
+
+        <div>
+            <h1>👗 Outfit Catalog</h1>
+
+            <p class="admin-subtitle">
+                {{ outfits|length }}
+                outfit{{ 's' if outfits|length != 1 else '' }}
+                in the database.
+            </p>
+        </div>
+
+        <a href="{{ url_for('admin_outfit_add') }}" class="btn btn-primary btn-admin">
+            ➕ Add Outfit
+        </a>
+
+    </div>
+</div>
+
+{% if not outfits %}
+
+<div class="admin-empty-state">
+
+    <div class="empty-icon">👗</div>
+
+    <h3>No outfits found</h3>
+
+    <p>Add your first outfit to get started.</p>
+
+    <a href="{{ url_for('admin_outfit_add') }}" class="btn btn-primary btn-admin">
+        ➕ Add Outfit
+    </a>
+
+</div>
+
+{% else %}
+
+<div class="admin-table-wrap">
+
+    <table class="admin-table">
+
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Season</th>
+                <th>Gender</th>
+                <th>Colour</th>
+                <th>Body Types</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for outfit in outfits %}
+
+            <tr>
+
+                <td>
+                    {{ outfit.outfit_id }}
+                </td>
+
+                <td>
+                    <strong>
+                        {{ outfit.outfit_name }}
+                    </strong>
+
+                    {% if outfit.description %}
+                    <span class="td-desc-preview">
+                        {{ outfit.description[:60] }}
+                        {% if outfit.description|length > 60 %}…{% endif %}
+                    </span>
+                    {% endif %}
+                </td>
+
+                <td>
+                    <span class="admin-pill">
+                        {{ outfit.category or '—' }}
+                    </span>
+                </td>
+
+                <td>
+                    {{ outfit.season or '—' }}
+                </td>
+
+                <td>
+                    {{ outfit.gender_target or '—' }}
+                </td>
+
+                <td>
+                    {{ outfit.colour or '—' }}
+                </td>
+
+                <td>
+                    {{ outfit.suitable_body_types or '—' }}
+                </td>
+
+                <td class="td-actions">
+
+                    <a href="{{ url_for('admin_outfit_edit', outfit_id=outfit.outfit_id) }}" class="btn-icon btn-edit"
+                        title="Edit">
+                        ✏️
+                    </a>
+
+                    <form method="POST" action="{{ url_for('admin_outfit_delete', outfit_id=outfit.outfit_id) }}"
+                        class="inline-form" onsubmit="return confirm('Delete this outfit? This cannot be undone.');">
+
+                        <button type="submit" class="btn-icon btn-delete" title="Delete">
+                            🗑️
+                        </button>
+
+                    </form>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block title %}Your Profile — Fashion Stylist{% endblock %}
+
+{% block content %}
+{% set p = profile or {} %}
+<div class="section-center">
+    <div class="card card-wide">
+        <!-- ── Step indicator ── -->
+        <div class="step-indicator">
+            <div class="step active">
+                <span class="step-num">1</span>
+                <span class="step-label">Profile</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <span class="step-num">2</span>
+                <span class="step-label">Photo</span>
+            </div>
+            <div class="step-line"></div>
+            <div class="step">
+                <span class="step-num">3</span>
+                <span class="step-label">Occasion</span>
+            </div>
+        </div>
+
+        <h2>Your Profile</h2>
+        <p class="subtitle">Tell us about yourself so we can personalise your style recommendations.</p>
+
+        <form method="POST" action="{{ url_for('profile') }}" id="profile-form">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" name="gender" required>
+                        <option value="" disabled {{ 'selected' if not p.gender }}>Choose…</option>
+                        {% for g in ['Male', 'Female', 'Non-Binary', 'Other'] %}
+                        <option value="{{ g }}" {{ 'selected' if p.gender == g }}>{{ g }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" min="1" max="120"
+                           placeholder="e.g. 25"
+                           value="{{ p.age or '' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="height_cm">Height (cm)</label>
+                    <input type="number" id="height_cm" name="height_cm"
+                           min="50" max="300" step="0.1"
+                           placeholder="e.g. 170"
+                           value="{{ p.height_cm or '' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="weight_kg">Weight (kg)</label>
+                    <input type="number" id="weight_kg" name="weight_kg"
+                           min="10" max="500" step="0.1"
+                           placeholder="e.g. 65"
+                           value="{{ p.weight_kg or '' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="body_type">Body Type <small>(or detect via photo)</small></label>
+                    <select id="body_type" name="body_type">
+                        <option value="">Detect via photo…</option>
+                        {% for bt in ['Hourglass', 'Pear', 'Apple', 'Rectangle', 'Inverted Triangle'] %}
+                        <option value="{{ bt }}" {{ 'selected' if p.body_type == bt }}>{{ bt }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="skin_tone">Skin Tone <small>(or detect via photo)</small></label>
+                    <select id="skin_tone" name="skin_tone">
+                        <option value="">Detect via photo…</option>
+                        {% for st in ['Fair', 'Light', 'Medium', 'Olive', 'Tan', 'Deep'] %}
+                        <option value="{{ st }}" {{ 'selected' if p.skin_tone == st }}>{{ st }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <!-- Favourite colour picker -->
+            <div class="form-group" style="margin-top: 1.5rem;">
+                <label>Favourite Colour</label>
+                <div class="colour-swatches" id="colour-swatches">
+                    {% set colours = [
+                        ('Black',    '#1a1a2e'),
+                        ('White',    '#f0f0f0'),
+                        ('Navy',     '#1e3a5f'),
+                        ('Red',      '#dc2626'),
+                        ('Burgundy', '#800020'),
+                        ('Pink',     '#ec4899'),
+                        ('Green',    '#059669'),
+                        ('Olive',    '#6b7c3f'),
+                        ('Mustard',  '#d4a017'),
+                        ('Teal',     '#0d9488'),
+                        ('Lavender', '#a78bfa'),
+                        ('Coral',    '#f97316'),
+                        ('Beige',    '#d4b896'),
+                        ('Grey',     '#6b7280'),
+                        ('Brown',    '#92400e'),
+                        ('Blue',     '#3b82f6')
+                    ] %}
+                    {% for name, hex in colours %}
+                    <div class="swatch-wrap">
+                        <input type="radio" name="favourite_colour" value="{{ name }}"
+                               id="c-{{ name|lower }}"
+                               {{ 'checked' if p.favourite_colour == name }}>
+                        <label for="c-{{ name|lower }}" class="swatch"
+                               style="--sw-color: {{ hex }}" title="{{ name }}"></label>
+                        <span class="swatch-name">{{ name }}</span>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="profile-save-btn"
+                    style="margin-top: 2rem;">
+                Save &amp; Continue →
+            </button>
+        </form>
+
+        <p class="form-footer">
+            <a href="{{ url_for('dashboard') }}">← Back to Dashboard</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

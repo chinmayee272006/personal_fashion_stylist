@@ -1,0 +1,51 @@
+{% extends "admin_base.html" %}
+{% block title %}Admin Dashboard — Fashion Stylist{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="admin-overview">
+    <h1>Welcome back, <span class="admin-gradient-text">{{ session.get('admin_username', 'Admin') }}</span> 👋</h1>
+    <p class="admin-subtitle">Here's a snapshot of your platform.</p>
+</div>
+
+<div class="admin-stats-grid">
+    <div class="admin-stat-card" id="stat-users">
+        <div class="stat-icon">👥</div>
+        <div class="stat-info">
+            <span class="stat-value">{{ counts.users }}</span>
+            <span class="stat-label">Registered Users</span>
+        </div>
+        <a href="{{ url_for('admin_users') }}" class="stat-link">View all →</a>
+    </div>
+
+    <div class="admin-stat-card" id="stat-outfits">
+        <div class="stat-icon">👗</div>
+        <div class="stat-info">
+            <span class="stat-value">{{ counts.outfits }}</span>
+            <span class="stat-label">Outfits in Catalog</span>
+        </div>
+        <a href="{{ url_for('admin_outfits') }}" class="stat-link">Manage →</a>
+    </div>
+
+    <div class="admin-stat-card" id="stat-feedback">
+        <div class="stat-icon">💬</div>
+        <div class="stat-info">
+            <span class="stat-value">{{ counts.feedback }}</span>
+            <span class="stat-label">Feedback Received</span>
+        </div>
+        <a href="{{ url_for('admin_feedback') }}" class="stat-link">Review →</a>
+    </div>
+</div>
+
+<div class="admin-quick-actions">
+    <h3>Quick Actions</h3>
+    <div class="quick-action-row">
+        <a href="{{ url_for('admin_outfit_add') }}" class="btn btn-primary btn-admin" id="quick-add-outfit">
+            ➕ Add New Outfit
+        </a>
+        <a href="{{ url_for('admin_feedback') }}" class="btn btn-outline btn-admin" id="quick-view-feedback">
+            📋 Review Feedback
+        </a>
+    </div>
+</div>
+{% endblock %}

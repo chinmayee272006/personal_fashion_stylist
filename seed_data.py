@@ -1,0 +1,366 @@
+"""
+Sample outfit catalogue — seeded into the ``outfits`` table on first run.
+30 outfits covering all body types, skin tones, occasions, and colours.
+"""
+
+SEED_OUTFITS = [
+    # ── Formal ──
+    {
+        "outfit_name": "Classic Black Blazer",
+        "category": "Formal",
+        "season": "All-Season",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Hourglass, Rectangle, Inverted Triangle",
+        "suitable_skin_tones": "Fair, Light, Medium, Olive, Tan, Deep",
+        "colour": "Black",
+        "description": "A timeless tailored blazer that cinches at the waist. Perfect for boardrooms, dinners, and everything in between.",
+    },
+    {
+        "outfit_name": "Navy Tailored Suit",
+        "category": "Formal",
+        "season": "All-Season",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Rectangle, Inverted Triangle",
+        "suitable_skin_tones": "Light, Medium, Olive",
+        "colour": "Navy",
+        "description": "Sharp two-piece suit in classic navy. Ideal for business meetings and formal events.",
+    },
+    {
+        "outfit_name": "Grey Formal Trousers & Blouse",
+        "category": "Formal",
+        "season": "All-Season",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Rectangle, Apple, Inverted Triangle",
+        "suitable_skin_tones": "Fair, Light, Medium, Olive, Tan, Deep",
+        "colour": "Grey",
+        "description": "Versatile grey trousers paired with a crisp blouse. A polished look for any formal setting.",
+    },
+    {
+        "outfit_name": "Teal Formal Dress",
+        "category": "Formal",
+        "season": "All-Season",
+        "gender_target": "Female",
+        "suitable_body_types": "Hourglass, Pear",
+        "suitable_skin_tones": "Medium, Olive, Tan",
+        "colour": "Teal",
+        "description": "Elegant teal sheath dress with a flattering neckline. Commands attention in any conference or gala.",
+    },
+    {
+        "outfit_name": "Green Formal Shirt & Chinos",
+        "category": "Formal",
+        "season": "All-Season",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Rectangle, Inverted Triangle",
+        "suitable_skin_tones": "Medium, Olive",
+        "colour": "Green",
+        "description": "Earthy green button-down paired with well-fitted chinos. Smart-casual with a natural vibe.",
+    },
+    # ── Casual ──
+    {
+        "outfit_name": "Floral Summer Dress",
+        "category": "Casual",
+        "season": "Summer",
+        "gender_target": "Female",
+        "suitable_body_types": "Hourglass, Pear",
+        "suitable_skin_tones": "Fair, Light",
+        "colour": "Pink",
+        "description": "Breezy floral midi dress in soft pink. Perfect for brunch, markets, and sunny strolls.",
+    },
+    {
+        "outfit_name": "White Linen Shirt & Shorts",
+        "category": "Casual",
+        "season": "Summer",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Rectangle, Inverted Triangle",
+        "suitable_skin_tones": "Medium, Olive, Tan",
+        "colour": "White",
+        "description": "Cool white linen combo for hot days. Effortlessly relaxed and endlessly versatile.",
+    },
+    {
+        "outfit_name": "Blue Denim Jacket Outfit",
+        "category": "Casual",
+        "season": "All-Season",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Hourglass, Rectangle, Pear, Apple, Inverted Triangle",
+        "suitable_skin_tones": "Fair, Light, Medium, Olive, Tan, Deep",
+        "colour": "Blue",
+        "description": "Classic denim jacket layered over a white tee and dark jeans. A wardrobe staple that works everywhere.",
+    },
+    {
+        "outfit_name": "Beige Chinos & Polo",
+        "category": "Casual",
+        "season": "Summer",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Rectangle, Inverted Triangle",
+        "suitable_skin_tones": "Fair, Light, Medium",
+        "colour": "Beige",
+        "description": "Relaxed beige chinos with a slim-fit polo. Polished yet comfortable for weekend outings.",
+    },
+    {
+        "outfit_name": "Lavender Co-ord Set",
+        "category": "Casual",
+        "season": "Summer",
+        "gender_target": "Female",
+        "suitable_body_types": "Pear, Rectangle",
+        "suitable_skin_tones": "Fair, Light",
+        "colour": "Lavender",
+        "description": "Matching lavender crop top and wide-leg trousers. Soft, playful, and Instagram-ready.",
+    },
+    # ── Party ──
+    {
+        "outfit_name": "Burgundy Evening Gown",
+        "category": "Party",
+        "season": "Winter",
+        "gender_target": "Female",
+        "suitable_body_types": "Hourglass",
+        "suitable_skin_tones": "Medium, Olive, Tan",
+        "colour": "Burgundy",
+        "description": "Show-stopping burgundy gown with a thigh-high slit. Designed for galas and glamorous nights.",
+    },
+    {
+        "outfit_name": "Red Cocktail Dress",
+        "category": "Party",
+        "season": "All-Season",
+        "gender_target": "Female",
+        "suitable_body_types": "Hourglass, Inverted Triangle",
+        "suitable_skin_tones": "Fair, Light",
+        "colour": "Red",
+        "description": "Bold red mini with structured shoulders. Turn heads at cocktail parties and celebrations.",
+    },
+    {
+        "outfit_name": "Coral Off-Shoulder Top & Skirt",
+        "category": "Party",
+        "season": "Summer",
+        "gender_target": "Female",
+        "suitable_body_types": "Hourglass, Inverted Triangle",
+        "suitable_skin_tones": "Fair, Light",
+        "colour": "Coral",
+        "description": "Vibrant coral off-shoulder top paired with a flowy skirt. Perfect for rooftop parties.",
+    },
+    # ── Ethnic ──
+    {
+        "outfit_name": "Lavender Silk Saree",
+        "category": "Ethnic",
+        "season": "All-Season",
+        "gender_target": "Female",
+        "suitable_body_types": "Hourglass, Pear",
+        "suitable_skin_tones": "Fair, Light, Medium",
+        "colour": "Lavender",
+        "description": "Luxurious silk saree in soft lavender with silver zari work. Graceful and regal.",
+    },
+    {
+        "outfit_name": "Mustard Embroidered Kurta",
+        "category": "Ethnic",
+        "season": "All-Season",
+        "gender_target": "Female",
+        "suitable_body_types": "Rectangle, Apple",
+        "suitable_skin_tones": "Medium, Olive, Tan",
+        "colour": "Mustard",
+        "description": "Richly embroidered mustard kurta with palazzo pants. Festive, flattering, and comfortable.",
+    },
+    {
+        "outfit_name": "Red Anarkali Suit",
+        "category": "Ethnic",
+        "season": "All-Season",
+        "gender_target": "Female",
+        "suitable_body_types": "Hourglass, Pear",
+        "suitable_skin_tones": "Medium, Olive, Tan, Deep",
+        "colour": "Red",
+        "description": "Flowing red anarkali with gold detailing. A classic choice for festivals and family celebrations.",
+    },
+    {
+        "outfit_name": "Teal Ethnic Kurta Set",
+        "category": "Ethnic",
+        "season": "Summer",
+        "gender_target": "Male",
+        "suitable_body_types": "Rectangle, Apple",
+        "suitable_skin_tones": "Medium, Olive, Tan",
+        "colour": "Teal",
+        "description": "Lightweight teal kurta with white churidar. Elegant ethnic wear for warm-weather festivities.",
+    },
+    # ── Date Night ──
+    {
+        "outfit_name": "Teal Wrap Dress",
+        "category": "Date Night",
+        "season": "All-Season",
+        "gender_target": "Female",
+        "suitable_body_types": "Hourglass, Pear",
+        "suitable_skin_tones": "Medium, Olive",
+        "colour": "Teal",
+        "description": "Figure-hugging wrap dress in rich teal. The plunging neckline and tie waist create an irresistible silhouette.",
+    },
+    {
+        "outfit_name": "Navy Blazer & Dark Jeans",
+        "category": "Date Night",
+        "season": "All-Season",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Rectangle, Inverted Triangle",
+        "suitable_skin_tones": "Light, Medium, Olive",
+        "colour": "Navy",
+        "description": "Smart-casual date look: fitted navy blazer over a crisp tee and dark-wash jeans.",
+    },
+    # ── Wedding ──
+    {
+        "outfit_name": "Pink Bridal Lehenga",
+        "category": "Wedding",
+        "season": "All-Season",
+        "gender_target": "Female",
+        "suitable_body_types": "Hourglass, Pear",
+        "suitable_skin_tones": "Fair, Light, Medium",
+        "colour": "Pink",
+        "description": "Exquisite pink lehenga with heavy embroidery and dupatta. Designed for the bride who loves colour.",
+    },
+    {
+        "outfit_name": "Black Formal Gown",
+        "category": "Wedding",
+        "season": "All-Season",
+        "gender_target": "Female",
+        "suitable_body_types": "Hourglass",
+        "suitable_skin_tones": "Medium, Olive, Tan, Deep",
+        "colour": "Black",
+        "description": "Sophisticated black floor-length gown. A dramatic choice for evening receptions.",
+    },
+    {
+        "outfit_name": "Burgundy Sherwani",
+        "category": "Wedding",
+        "season": "Winter",
+        "gender_target": "Male",
+        "suitable_body_types": "Rectangle, Inverted Triangle",
+        "suitable_skin_tones": "Medium, Olive, Tan",
+        "colour": "Burgundy",
+        "description": "Regal burgundy sherwani with gold buttons and embroidery. The groom's showpiece.",
+    },
+    # ── Streetwear ──
+    {
+        "outfit_name": "Olive Cargo Pants Set",
+        "category": "Streetwear",
+        "season": "All-Season",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Rectangle, Pear",
+        "suitable_skin_tones": "Olive, Tan, Deep",
+        "colour": "Olive",
+        "description": "Relaxed-fit olive cargos with a cropped hoodie. Urban edge with a utilitarian twist.",
+    },
+    {
+        "outfit_name": "Black Streetwear Ensemble",
+        "category": "Streetwear",
+        "season": "All-Season",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Hourglass, Rectangle, Pear, Apple, Inverted Triangle",
+        "suitable_skin_tones": "Fair, Light, Medium, Olive, Tan, Deep",
+        "colour": "Black",
+        "description": "All-black oversized tee, joggers, and high-top sneakers. Effortless street style.",
+    },
+    {
+        "outfit_name": "Brown Leather Jacket Set",
+        "category": "Streetwear",
+        "season": "Winter",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Rectangle, Inverted Triangle",
+        "suitable_skin_tones": "Olive, Tan, Deep",
+        "colour": "Brown",
+        "description": "Distressed brown leather jacket layered over a graphic tee. Rugged and effortlessly cool.",
+    },
+    # ── Sports ──
+    {
+        "outfit_name": "Green Athletic Tracksuit",
+        "category": "Sports",
+        "season": "All-Season",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Hourglass, Rectangle, Pear, Apple, Inverted Triangle",
+        "suitable_skin_tones": "Medium, Olive, Tan",
+        "colour": "Green",
+        "description": "Moisture-wicking tracksuit in forest green. Built for runs, the gym, and active days.",
+    },
+    {
+        "outfit_name": "White Sports Jersey Set",
+        "category": "Sports",
+        "season": "Summer",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Hourglass, Rectangle, Pear, Apple, Inverted Triangle",
+        "suitable_skin_tones": "Fair, Light, Medium, Olive, Tan, Deep",
+        "colour": "White",
+        "description": "Breathable white jersey and shorts combo. Clean, light, and ready for any sport.",
+    },
+    {
+        "outfit_name": "Blue Track Suit",
+        "category": "Sports",
+        "season": "All-Season",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Rectangle, Apple",
+        "suitable_skin_tones": "Light, Medium",
+        "colour": "Blue",
+        "description": "Royal blue zip-up jacket and jogger set. Sporty style for training sessions or casual outings.",
+    },
+    # ── Travel ──
+    {
+        "outfit_name": "Coral Maxi Dress",
+        "category": "Travel",
+        "season": "Summer",
+        "gender_target": "Female",
+        "suitable_body_types": "Pear, Apple",
+        "suitable_skin_tones": "Fair, Light",
+        "colour": "Coral",
+        "description": "Flowing coral maxi dress with pockets. Pack-friendly and stunning for beach holidays.",
+    },
+    {
+        "outfit_name": "Mustard Boho Dress",
+        "category": "Travel",
+        "season": "Summer",
+        "gender_target": "Female",
+        "suitable_body_types": "Pear, Hourglass",
+        "suitable_skin_tones": "Fair, Light, Medium",
+        "colour": "Mustard",
+        "description": "Free-spirited mustard bohemian dress with tassel details. Wanderlust in every stitch.",
+    },
+    {
+        "outfit_name": "Beige Linen Jumpsuit",
+        "category": "Travel",
+        "season": "Summer",
+        "gender_target": "Female",
+        "suitable_body_types": "Rectangle, Hourglass",
+        "suitable_skin_tones": "Fair, Light, Medium",
+        "colour": "Beige",
+        "description": "Effortless beige linen jumpsuit with a cinched waist. One piece, endless destinations.",
+    },
+    # ── Work From Home ──
+    {
+        "outfit_name": "Grey Hoodie & Joggers",
+        "category": "Work From Home",
+        "season": "Winter",
+        "gender_target": "Unisex",
+        "suitable_body_types": "Hourglass, Rectangle, Pear, Apple, Inverted Triangle",
+        "suitable_skin_tones": "Fair, Light, Medium, Olive, Tan, Deep",
+        "colour": "Grey",
+        "description": "Ultra-soft grey hoodie and joggers set. Video-call ready on top, cosy all over.",
+    },
+]
+
+
+def seed_outfits(get_db_func):
+    """Insert sample outfits if the outfits table is currently empty."""
+    try:
+        conn = get_db_func()
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM outfits")
+        count = cursor.fetchone()[0]
+
+        if count == 0:
+            for o in SEED_OUTFITS:
+                cursor.execute(
+                    """INSERT INTO outfits
+                       (outfit_name, category, season, gender_target,
+                        suitable_body_types, suitable_skin_tones, colour, description)
+                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+                    (
+                        o["outfit_name"], o["category"], o["season"],
+                        o["gender_target"], o["suitable_body_types"],
+                        o["suitable_skin_tones"], o["colour"], o["description"],
+                    ),
+                )
+            conn.commit()
+
+        cursor.close()
+        conn.close()
+    except Exception:
+        pass  # table may not exist yet or DB unreachable

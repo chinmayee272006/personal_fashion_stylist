@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login — Fashion Stylist</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="section-center">
+        <div class="card card-narrow admin-login-card">
+            <div class="admin-login-badge">🛡️</div>
+            <h2>Admin Login</h2>
+            <p class="subtitle">Restricted area — authorised personnel only</p>
+
+            <!-- Flash messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flashes">
+                        {% for category, message in messages %}
+                            <li class="flash-{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('admin_login') }}" id="admin-login-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username"
+                           placeholder="Enter admin username"
+                           value="{{ username | default('', true) }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password"
+                           placeholder="Enter admin password" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary admin-login-btn" id="admin-login-btn">
+                    🔐 Sign In as Admin
+                </button>
+            </form>
+
+            <p class="form-footer">
+                <a href="{{ url_for('home') }}">← Back to main site</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Fashion Stylist{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+    <!-- Header -->
+    <div class="dashboard-header">
+        <h1>Welcome, <span>{{ username }}</span> 👋</h1>
+        <p>Here's your personal style command centre.</p>
+    </div>
+
+    <!-- Profile setup banner (shown when profile is incomplete) -->
+    {% if not profile_complete %}
+    <div class="profile-banner">
+        <span class="banner-icon">✨</span>
+        <div class="banner-text">
+            <h4>Complete your profile</h4>
+            <p>Set up your body info, upload a photo, and pick your occasions to unlock personalised recommendations.</p>
+        </div>
+        <a href="{{ url_for('profile') }}" class="btn btn-primary" style="width:auto; white-space:nowrap;">Set Up →</a>
+    </div>
+    {% endif %}
+
+    <!-- Dashboard cards -->
+    <div class="dashboard-grid">
+        <a href="{{ url_for('upload_photo') }}" class="card dash-card" id="dash-upload">
+            <div class="icon">📸</div>
+            <h3>Upload Photo</h3>
+            <p>Analyse your body type and skin tone with our AI vision engine.</p>
+        </a>
+
+        <a href="{{ url_for('recommendations') }}" class="card dash-card" id="dash-recommendations">
+            <div class="icon">👗</div>
+            <h3>My Recommendations</h3>
+            <p>View outfits curated just for you based on your profile.</p>
+        </a>
+
+        <a href="{{ url_for('favourites_page') }}" class="card dash-card" id="dash-favourites">
+            <div class="icon">❤️</div>
+            <h3>Favourites</h3>
+            <p>Access your saved looks and build your style library.</p>
+        </a>
+
+        <a href="{{ url_for('profile') }}" class="card dash-card" id="dash-profile">
+            <div class="icon">⚙️</div>
+            <h3>Edit Profile</h3>
+            <p>Update your measurements, preferences, and style goals.</p>
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% block title %}My Favourites — Fashion Stylist{% endblock %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="rec-header">
+        <h1>My <span class="gradient-text">Favourites</span></h1>
+        <p>Your saved looks — tap an outfit to leave feedback or remove it.</p>
+    </div>
+
+    {% if not favourites %}
+    <div class="rec-empty card">
+        <div class="icon" style="font-size:2.5rem; margin-bottom:1rem;">💔</div>
+        <h3>No favourites yet</h3>
+        <p>Browse your <a href="{{ url_for('recommendations') }}">recommendations</a> and tap the heart to save outfits you love.</p>
+    </div>
+    {% else %}
+    <div class="rec-grid">
+        {% for fav in favourites %}
+        {% set outfit = fav %}
+        <div class="rec-card fav-card" style="--outfit-color: {{ colour_hex_map.get(outfit.colour, '#a855f7') }}">
+
+            <!-- Remove favourite button -->
+            <form method="POST" action="{{ url_for('toggle_favourite') }}" class="fav-remove-form">
+                <input type="hidden" name="outfit_id" value="{{ outfit.outfit_id }}">
+                <button type="submit" class="fav-remove-btn" title="Remove from favourites">✕</button>
+            </form>
+
+            <h3 class="rec-name">{{ outfit.outfit_name }}</h3>
+
+            <div class="rec-tags">
+                <span class="rec-tag">{{ outfit.category }}</span>
+                <span class="rec-tag">{{ outfit.colour }}</span>
+                <span class="rec-tag">{{ outfit.season }}</span>
+            </div>
+
+            <p class="rec-desc">{{ outfit.description }}</p>
+
+            <div class="fav-saved-at">
+                Saved {{ outfit.saved_at.strftime('%d %b %Y') if outfit.saved_at else '' }}
+            </div>
+
+            <!-- Existing feedback -->
+            {% if outfit.feedback_rating %}
+            <div class="fav-feedback-display">
+                <div class="fb-stars">
+                    {% for i in range(1, 6) %}
+                    <span class="star {{ 'filled' if i <= outfit.feedback_rating }}">★</span>
+                    {% endfor %}
+                </div>
+                {% if outfit.feedback_comment %}
+                <p class="fb-comment">"{{ outfit.feedback_comment }}"</p>
+                {% endif %}
+            </div>
+            {% else %}
+            <!-- Feedback form -->
+            <form method="POST" action="{{ url_for('submit_feedback') }}" class="feedback-form" id="fb-form-{{ outfit.outfit_id }}">
+                <input type="hidden" name="outfit_id" value="{{ outfit.outfit_id }}">
+                <div class="fb-rating-row">
+                    <span class="fb-label">Rate this outfit:</span>
+                    <div class="fb-stars-input" data-form-id="fb-form-{{ outfit.outfit_id }}">
+                        {% for i in range(1, 6) %}
+                        <label class="star-label">
+                            <input type="radio" name="rating" value="{{ i }}" {{ 'required' if i == 1 }}>
+                            <span class="star">★</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <textarea name="comment" placeholder="Add a comment (optional)..." rows="2" class="fb-comment-input"></textarea>
+                <button type="submit" class="btn btn-primary btn-sm">Submit Feedback</button>
+            </form>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+
+<script>
+// Star-rating hover interaction
+document.querySelectorAll('.fb-stars-input').forEach(container => {
+    const stars = container.querySelectorAll('.star-label');
+    stars.forEach((star, idx) => {
+        star.addEventListener('mouseenter', () => {
+            stars.forEach((s, i) => {
+                s.querySelector('.star').classList.toggle('hover', i <= idx);
+            });
+        });
+        star.addEventListener('click', () => {
+            stars.forEach((s, i) => {
+                s.querySelector('.star').classList.toggle('selected', i <= idx);
+            });
+        });
+    });
+    container.addEventListener('mouseleave', () => {
+        stars.forEach(s => s.querySelector('.star').classList.remove('hover'));
+    });
+});
+</script>
+{% endblock %}
