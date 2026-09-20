@@ -3,7 +3,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-MYSQL_HOST = os.getenv("MYSQL_HOST")
-MYSQL_USER = os.getenv("MYSQL_USER")
-MYSQL_PASSWORD = os.getenv("laxmi@8371")
-MYSQL_DB = os.getenv("MYSQL_DB")
+DB_CONFIG = {
+    "host": os.getenv("MYSQL_HOST", "localhost"),
+    "user": os.getenv("MYSQL_USER", "root"),
+    "password": os.getenv("MYSQL_PASSWORD"),
+    "database": os.getenv("MYSQL_DB", "fashion_db")
+}
